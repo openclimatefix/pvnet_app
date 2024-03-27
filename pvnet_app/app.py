@@ -304,7 +304,7 @@ def app(
             elevation = batch[BatchKey.gsp_solar_elevation] * ELEVATION_STD + ELEVATION_MEAN
             # We only need elevation mask for forecasted values, not history
             elevation = elevation[:, -preds.shape[1] :]
-            sun_down_mask = elevation < MIN_DAY_ELEVATION
+            sun_down_mask = elevation.min(dim="time") < MIN_DAY_ELEVATION
 
             # Store predictions
             normed_preds += [preds]
