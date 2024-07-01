@@ -22,7 +22,7 @@ RUN conda install -c conda-forge xesmf esmpy h5py -y
 RUN pip install torch==2.2.0 --index-url https://download.pytorch.org/whl/cpu
 RUN pip install git+https://github.com/SheffieldSolar/PV_Live-API#pvlive_api
 
-# install cpu torch
+# Install CPU torch
 RUN pip install torch==2.2.0 torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # Change to app folder
@@ -30,6 +30,9 @@ WORKDIR /app
 
 # Install library
 RUN pip install -e .
+
+# Download models so app can used cached versions instead of pulling from huggingface
+RUN python scripts/cache_default_models.py
 
 RUN if [ "$TESTING" = 1 ]; then pip install pytest pytest-cov coverage; fi
 
